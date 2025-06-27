@@ -1,9 +1,0 @@
-.resaltado {
-  background-color: #ffe6e6 !important;
-}
-body{
-    background-image: url("../img/texturas-verdes_1160-721.avif");
-    height: 100%;
-    width: 100%;
-    z-index: -1;
-}
