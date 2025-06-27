@@ -1,4 +1,3 @@
-// Verificar si hay sesión activa
 const usuario = localStorage.getItem('usuario');
 if (!usuario) {
   window.location.href = "login.html";
@@ -6,13 +5,11 @@ if (!usuario) {
   document.getElementById("nombreUsuario").textContent = usuario;
 }
 
-// Salir de sesión
 document.getElementById("btnSalir").addEventListener("click", () => {
   localStorage.clear();
   window.location.href = "login.html";
 });
 
-// Elementos del DOM
 const tablaBody = document.getElementById("tablaBody");
 const selectFicha = document.getElementById("selectFicha");
 const programaInput = document.getElementById("programaNombre");
@@ -20,7 +17,6 @@ const buscador = document.getElementById("buscador");
 
 let aprendices = [];
 
-// Cargar datos desde JSON externo
 fetch("https://raw.githubusercontent.com/CesarMCuellarCha/apis/main/SENA-CTPI.matriculados.json")
   .then(res => res.json())
   .then(data => {
@@ -32,20 +28,17 @@ fetch("https://raw.githubusercontent.com/CesarMCuellarCha/apis/main/SENA-CTPI.ma
     tablaBody.innerHTML = `<tr><td colspan="6" class="text-center text-danger">No se pudo cargar la información</td></tr>`;
   });
 
-// Llenar select con fichas únicas
 function cargarFichas() {
   const fichasUnicas = [...new Set(aprendices.map(a => a.FICHA))];
   selectFicha.innerHTML = fichasUnicas.map(f => `<option value="${f}">${f}</option>`).join("");
 
   mostrarAprendicesPorFicha(fichasUnicas[0]);
 
-  // Evento al cambiar ficha
   selectFicha.addEventListener("change", () => {
     mostrarAprendicesPorFicha(selectFicha.value);
   });
 }
 
-// Mostrar aprendices por ficha seleccionada
 function mostrarAprendicesPorFicha(ficha) {
   const filtrados = aprendices.filter(a => a.FICHA == ficha);
   tablaBody.innerHTML = "";
@@ -72,7 +65,7 @@ function mostrarAprendicesPorFicha(ficha) {
       tablaBody.appendChild(fila);
     });
 
-    // Guardar ficha actual en localStorage
+
     localStorage.setItem("codigo_ficha", ficha);
     localStorage.setItem("programa", filtrados[0].PROGRAMA);
     localStorage.setItem("nivel", filtrados[0].NIVEL_DE_FORMACION);
@@ -80,7 +73,6 @@ function mostrarAprendicesPorFicha(ficha) {
   }
 }
 
-// Buscador en tiempo real
 buscador.addEventListener("input", function () {
   const texto = this.value.toLowerCase().trim();
 
@@ -97,7 +89,6 @@ buscador.addEventListener("input", function () {
   }
 });
 
-// Mostrar resultados desde el buscador
 function mostrarResultados(lista) {
   tablaBody.innerHTML = "";
 
